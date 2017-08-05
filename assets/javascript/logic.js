@@ -1,3 +1,6 @@
+$(document).ready(function () {
+    
+
 (function(){
     //link to Firebase 
     var config = {
@@ -37,6 +40,11 @@
         
     })
 
+    
+
+
 }())
+
+});
 
 

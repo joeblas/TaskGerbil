@@ -1,7 +1,5 @@
-$(document).ready(function () {
-    
+(function(){ //start iffy
 
-(function(){
     //link to Firebase 
     var config = {
         apiKey: "AIzaSyADN_JgqSyWmzLblXwdC7DaS5MsQdYC9cA",
@@ -15,7 +13,7 @@ $(document).ready(function () {
     var database = firebase.database();
     var auth = firebase.auth();
 
-    //jQuery selectors
+    //init variables
     var email;
     var password;
 
@@ -82,8 +80,8 @@ $(document).ready(function () {
     
 
 
-}())
+}());
 
-});
+
 
 

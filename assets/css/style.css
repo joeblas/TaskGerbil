@@ -97,3 +97,7 @@ body { padding: 2em; }
 .login-card{
   z-index: 810;
 }
+
+.register-card{
+  z-index: 810;
+}

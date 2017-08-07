@@ -10,13 +10,23 @@
         messagingSenderId: "360224380903"
     };
     firebase.initializeApp(config);
+
+    //firebase db referenses
     var database = firebase.database();
     var auth = firebase.auth();
+    var usersRef = database.ref('USERS');
+
 
     //init variables
     var email;
     var password;
+    
+    var userHelper = {
+        skills: [],
 
+    }
+
+    $('.register-card').hide()
     
 
     //if user is logged in handling
@@ -44,18 +54,18 @@
         email = $('#email').val().trim();
         password = $('#password').val().trim();
         
-        if(result === 'signup-btn'){
-            auth.createUserWithEmailAndPassword(email, password).then(function(){
-                console.log('Signed up')
+        if(result === 'register-btn'){
+            auth.createUserWithEmailAndPassword(email, password).then(function(user){
+                console.log(user.uid)
             }).catch(function(error){
                 var errCode = error.code;
                 var errMessage = error.message;
-                $('.card-block').prepend('<p class="alert alert-danger">'+errMessage+'</p>')
+                $('.card-block').prepend('<p class="alert alert-danger">'+errMess age+'</p>')
             }) 
         }
         else if (result === 'login-btn') {
-            auth.signInWithEmailAndPassword(email, password).then(function(){
-                console.log('Signed in!')
+            auth.signInWithEmailAndPassword(email, password).then(function(user){
+                usersRef.push(user.uid)
             }).catch(function(error){
                 var errCode = error.code;
                 var errMessage = error.message;
@@ -81,9 +91,16 @@
     })
 
     //shows user registration card if register button is pressed on login card
-    $('#user-register').on('click', function(){
-        $('.login-card').hide();
-        $('.register-card').show();
+    $('.user-login-register').on('click', function(event){
+        console.log(event)
+        var result = event.currentTarget;
+        if(result.text==='Register'){
+            $('.login-card').hide();
+            $('.register-card').show();
+        }else if (result.text === 'Login'){
+            $('.login-card').show();
+            $('.register-card').hide();
+        }
     });
     
 

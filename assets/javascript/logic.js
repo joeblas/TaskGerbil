@@ -60,7 +60,7 @@
             }).catch(function(error){
                 var errCode = error.code;
                 var errMessage = error.message;
-                $('.card-block').prepend('<p class="alert alert-danger">'+errMess age+'</p>')
+                $('.card-block').prepend('<p class="alert alert-danger">'+errMessage+'</p>')
             }) 
         }
         else if (result === 'login-btn') {

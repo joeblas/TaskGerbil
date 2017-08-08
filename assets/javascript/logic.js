@@ -14,34 +14,41 @@
     //firebase db referenses
     var database = firebase.database();
     var auth = firebase.auth();
-    var usersRef = database.ref('USERS');
+    var loginRef = database.ref('USERS');
+    
 
+   
 
     //init variables
-    var email;
-    var password;
+    var user_firstName;
+    var user_lastName;
+    var user_skills;
+    var userEmail;
+    var userPassword;
+    var registerEmail;
+    var registerPassword;
     
     var userHelper = {
-        skills: [],
-
+        first_name:'tyler',
+        last_name: 'negro',
+        skills: 'lawnmowing, car repair, handyman',
+        rating:'',
+        jobs:'',
     }
 
+   
     $('.register-card').hide()
     
 
+
     //if user is logged in handling
     auth.onAuthStateChanged(function(user){
-        if(user){
-            console.log(user)
-            $(".login-cover").hide();
-            $(".login-card").hide();
-            
+        hideLoginRegisterDivs(user)
 
-        } else {
-            $(".login-cover").show();
-            $(".login-card").show();
-            
-        } 
+        /////WORK ON THIS --- THIS IS THE RIGHT TRACK
+        /////THIS WORKS IF I HARD CODE THE VALUES BUT NOT WHEN I RETRIEVE VALUES FROM THE TEXT FIELD
+        loginRef.child(firebase.auth().currentUser.uid).set(userHelper)
+
     });
     
 
@@ -50,22 +57,20 @@
     $('.login-signup').on('click', function(event){
         event.preventDefault();
         var result = event.currentTarget.id
-        console.log(result)
-        email = $('#email').val().trim();
-        password = $('#password').val().trim();
-        
+    
         if(result === 'register-btn'){
-            auth.createUserWithEmailAndPassword(email, password).then(function(user){
-                console.log(user.uid)
-            }).catch(function(error){
-                var errCode = error.code;
-                var errMessage = error.message;
-                $('.card-block').prepend('<p class="alert alert-danger">'+errMessage+'</p>')
-            }) 
+            user_firstName = $('#first-name').val().trim();
+            user_lastName = $('#last-name').val().trim();
+            user_skills = $('#skills').val().trim();
+            registerEmail = $('#email-register').val().trim();
+            registerPassword = $('#password-register').val().trim();
+            registerUser(registerEmail,registerPassword)
         }
         else if (result === 'login-btn') {
-            auth.signInWithEmailAndPassword(email, password).then(function(user){
-                usersRef.push(user.uid)
+            userEmail = $('#email-user').val().trim();
+            userPassword = $('#password-user').val().trim();
+            auth.signInWithEmailAndPassword(userEmail, userPassword).then(function(user){
+                //nothing
             }).catch(function(error){
                 var errCode = error.code;
                 var errMessage = error.message;
@@ -81,7 +86,7 @@
     //handles the signout of the user
     $('#user-signout').on('click', function(event){
         event.preventDefault();
-        console.log(event)
+        // console.log(event)
         $('.alert').remove(); //removes any alerts if user logs out and goes to login screen
         auth.signOut().catch(function(error){
             var errCode = error.code;
@@ -92,7 +97,7 @@
 
     //shows user registration card if register button is pressed on login card
     $('.user-login-register').on('click', function(event){
-        console.log(event)
+        // console.log(event)
         var result = event.currentTarget;
         if(result.text==='Register'){
             $('.login-card').hide();
@@ -103,6 +108,27 @@
         }
     });
     
+    function hideLoginRegisterDivs(user){
+        if(user){
+            // console.log(user)
+            $(".login-cover").hide();
+            $(".login-card").hide();
+            $('.register-card').hide();
+        } else {
+            $(".login-cover").show();
+            $(".login-card").show();
+        } 
+    }
+
+    function registerUser(registerEmail, registerPassword){
+        auth.createUserWithEmailAndPassword(registerEmail, registerPassword).then(function(user){
+            usersRef.child(user.uid).push()    
+        }).catch(function(error){
+            var errCode = error.code;
+            var errMessage = error.message;
+            $('.card-block').prepend('<p class="alert alert-danger">'+errMessage+'</p>')
+            }) 
+    }
 
     
 

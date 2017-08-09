@@ -15,6 +15,9 @@
     var database = firebase.database();
     var auth = firebase.auth();
     var loginRef = database.ref('USERS');
+    var helpRef = database.ref('Help-Form');
+    var storage = database.storage();
+    var storageRef = storage.ref();
     
 
    
@@ -68,16 +71,9 @@
     console.log(helpForm.name)
 
     //firebase
-    database.helpRef.set({
-        name: helpForm.name,
-        address: helpForm.address,
-        phone: helpForm.phone,
-        email: helpForm.email,
-        description: helpForm.description
-    });
+    helpRef.set(helpForm);
 
-  
-    });
+   });
     
 
 

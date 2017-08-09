@@ -46,9 +46,7 @@
         
         hideLoginRegisterDivs(user);
         userLogin(user);
-
-        /////WORK ON THIS 
-        /////THIS WORKS IF I HARD CODE THE VALUES BUT NOT WHEN I RETRIEVE VALUES FROM THE TEXT FIELD
+        
         loginRef.child(firebase.auth().currentUser.uid).set(userHelper)
 
     });
@@ -122,6 +120,7 @@
         } 
     }
 
+    //registers the user. This function is called when the register button. 
     function registerUser(registerEmail, registerPassword){
         auth.createUserWithEmailAndPassword(registerEmail, registerPassword).catch(function(error){
             var errCode = error.code;
@@ -138,6 +137,8 @@
             userSignedIn.text(snapshot.val().first_name)
         })
     }
+
+    
 
     
 

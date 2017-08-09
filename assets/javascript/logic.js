@@ -16,6 +16,7 @@ $(function(){ //start iffy
     var auth = firebase.auth();
     var loginRef = database.ref('USERS');
     var helpRef = database.ref('Help-Form');
+    var helpRefId = helpRef.push()
     // var storage = database.storage();
     // var storageRef = storage.ref();
     
@@ -53,29 +54,24 @@ $(function(){ //start iffy
         
         hideLoginRegisterDivs(user);
         userLogin(user);
-
-        /////WORK ON THIS 
-        /////THIS WORKS IF I HARD CODE THE VALUES BUT NOT WHEN I RETRIEVE VALUES FROM THE TEXT FIELD
-        loginRef.child(firebase.auth().currentUser.uid).set(userHelper)
+        loginRef.child(user.uid).set(userHelper)
+        retrieveIssue();
 
     });
 
-       $("#submit-help").on("click", function (e) {
+    $("#submit-help").on("click", function (e) {
         e.preventDefault();
-    
-    var helpForm = {
-        name: $("#user-name").val().trim(),
-        address: $("#user-address").val().trim(),
-        phone: $("#user-phone").val().trim(),
-        email: $("#user-email").val().trim(),
-        description: $("#user-description").val().trim(),
-
-    }
-    //testing form
-    console.log(helpForm.name)
-
-    //firebase
-    helpRef.set(helpForm);
+        var helpForm = {
+            name: $("#user-name").val().trim(),
+            address: $("#user-address").val().trim(),
+            phone: $("#user-phone").val().trim(),
+            email: $("#user-email").val().trim(),
+            description: $("#user-description").val().trim(),
+        }
+        //testing form
+        console.log(helpForm.name)
+        //firebase
+        helpRefId.set(helpForm);
 
    });
     
@@ -158,81 +154,21 @@ $(function(){ //start iffy
  //handles the user login stuff and will display the needed info for user
     function userLogin(user){
         var userSignedIn = $('#user-name');
-        console.log(user.uid)
+        // console.log(user.uid)
         loginRef.child(user.uid).on('value',function(snapshot){
             userSignedIn.text(snapshot.val().first_name)
         })
     }
 
-
-
-// Access Google Maps
-var addressUser = '';
-var addressTasker = '';
-// Change to get address from form input later
-$("#add-distance").on("click", function() {
-  // Don't refresh the page!
-    event.preventDefault();
-  // grabs value input from form
-    addressUser = $('#addressUser').val().trim();
-    addressTasker = $('#addressTasker').val().trim();
-    console.log(addressUser);
-    console.log(addressTasker);
-    // Sets variables equal to firebase database; need to figure out how to add new data and not replace data
-    database.ref().set({
-        addressUser: addressUser,
-        addressTasker: addressTasker,
-    });
-    initMap();
-});
-
-// function to access google maps and get distance, delete display later, and won't need the city and state of origin and destination
-function initMap() {
-  var tasker = addressTasker;
-  var user = addressUser;
-
-  var service = new google.maps.DistanceMatrixService;
-  service.getDistanceMatrix({
-    origins: [tasker],
-    destinations: [user],
-    travelMode: 'DRIVING',
-    unitSystem: google.maps.UnitSystem.IMPERIAL,
-    avoidHighways: false,
-    avoidTolls: false
-  }, function(response, status) {
-    console.log(response);
-    if (status !== 'OK') {
-      alert('Error was: ' + status);
-    } else {
-        // Below could be rewritten using jquery, just copied this form google
-      var originList = response.originAddresses;
-      var destinationList = response.destinationAddresses;
-      var outputDiv = document.getElementById('output');
-      outputDiv.innerHTML = '';
-
-      for (var i = 0; i < originList.length; i++) {
-        var results = response.rows[i].elements;
-        for (var j = 0; j < results.length; j++) {
-          outputDiv.innerHTML += originList[i] + ' to ' + destinationList[j] +
-              ': ' + results[j].distance.text + ' in ' +
-              results[j].duration.text + '<br>';
-        }
-      }
+    function retrieveIssue(){
+        helpRefId.on('child_added',function(snapshot){
+            console.log(snapshot)
+        })
     }
 
 
-// I'm cofused actually about what if anything this function is actually doing, it probably is to pull data saved on firebase to use
-database.ref().on("value", function(snapshot) {
-  // Print the initial data to the console.
-  console.log(snapshot.val());  
 
-  // If any errors are experienced, log them to console.
-}, function(errorObject) {
-  console.log("The read failed: " + errorObject.code);
-});
-// End of Google Maps
-  });
-}
+
 
 
 

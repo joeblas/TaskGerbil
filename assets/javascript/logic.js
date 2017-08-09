@@ -54,8 +54,13 @@ $(function(){ //start iffy
         
         hideLoginRegisterDivs(user);
         userLogin(user);
+<<<<<<< HEAD
         loginRef.child(user.uid).set(userHelper)
         retrieveIssue();
+=======
+        
+        loginRef.child(firebase.auth().currentUser.uid).set(userHelper)
+>>>>>>> 659a42fe0756bb96c3f3c4a4536cd15a5413ab0c
 
     });
 
@@ -143,6 +148,8 @@ $(function(){ //start iffy
             $(".login-card").show();
         } 
     }
+
+    //registers the user. This function is called when the register button. 
     function registerUser(registerEmail, registerPassword){
         auth.createUserWithEmailAndPassword(registerEmail, registerPassword).catch(function(error){
             var errCode = error.code;
@@ -180,6 +187,8 @@ $(function(){ //start iffy
 
 
    
+    
+
     
 
 

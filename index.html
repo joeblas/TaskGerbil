@@ -10,7 +10,6 @@
     crossorigin="anonymous">
   <link rel="stylesheet" href="assets/css/normalize.css">
   <link rel="stylesheet" href="assets/css/style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
   <script src="assets/javascript/display.js"></script>
 
@@ -163,48 +162,12 @@
 
   </div>
 
-<!-- Delete form later once functionality of address input through form is created -->
-<br>
-<div class="container">
-  <div class="panel panel-default" style="border-color: steelblue;">
-    <div class="panel-heading" style="background-color: steelblue; color: white;">
-      <h3 class="panel-title">Get Distance</h3>
-    </div>
-    <div class="panel-body">
-      <form>
-        <div class="form-group">
-          <label for="addressUser">User address</label>
-          <input type="text" class="form-control" id="addressUser" placeholder="Boston, MA">
-        </div>
-        <div class="form-group">
-          <label for="addressTasker">Helper address</label>
-          <input type="text" class="form-control" id="addressTasker" placeholder="Salem, OR">
-        </div>
-              
-        <button type="submit" class="btn btn-default" id="add-distance">Submit</button>
-      </form>
-    </div>
-  </div>
-</div>
 
-<div class="container">
-  <div class="panel panel-default" style="border-color: steelblue;">
-    <div class="panel-heading" style="background-color: steelblue; color: white;">
-      <h3 class="panel-title">Results</h3>
-    </div>
-    <div class="panel-body">
-      <h2 id="output"></h2>
-    </div>
-  </div>
-</div>
-<!-- Delete above once form input is functional -->
-
-
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-  
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeiUXBWVMcXIdW-ZKCpgopbVPEP1gMggw&callback=initMap">
-  </script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+    crossorigin="anonymous"></script>
+  <script src="assets/javascript/logic.js"></script>
 </body>
 
 </html>

@@ -41,7 +41,11 @@ $(function(){ //start iffy
 
    
     $('.register-card').hide()
-    
+
+    $("button").on("click", function(){
+        console.log("button clicked")
+
+    })
 
 
     //if user is logged in handling

@@ -52,6 +52,32 @@
         loginRef.child(firebase.auth().currentUser.uid).set(userHelper)
 
     });
+
+       $("#submit-help").on("click", function (e) {
+        e.preventDefault();
+    
+    var helpForm = {
+        name: $("#user-name").val().trim(),
+        address: $("#user-address").val().trim(),
+        phone: $("#user-phone").val().trim(),
+        email: $("#user-email").val().trim(),
+        description: $("#user-description").val().trim(),
+
+    }
+    //testing form
+    console.log(helpForm.name)
+
+    //firebase
+    database.helpRef.set({
+        name: helpForm.name,
+        address: helpForm.address,
+        phone: helpForm.phone,
+        email: helpForm.email,
+        description: helpForm.description
+    });
+
+  
+    });
     
 
 

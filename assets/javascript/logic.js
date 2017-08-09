@@ -29,9 +29,9 @@ $(function(){ //start iffy
     var registerPassword;
     
     var userHelper = {
-        first_name:'tyler',
-        last_name: 'negro',
-        skills: 'lawnmowing, car repair, handyman',
+        first_name:user_firstName,
+        last_name: user_lastName,
+        skills: user_skills,
         rating:'',
         jobs:'',
     }
@@ -43,12 +43,40 @@ $(function(){ //start iffy
 
     //if user is logged in handling
     auth.onAuthStateChanged(function(user){
-        hideLoginRegisterDivs(user)
+        
+        hideLoginRegisterDivs(user);
+        userLogin(user);
 
-        /////WORK ON THIS --- THIS IS THE RIGHT TRACK
+        /////WORK ON THIS 
         /////THIS WORKS IF I HARD CODE THE VALUES BUT NOT WHEN I RETRIEVE VALUES FROM THE TEXT FIELD
         loginRef.child(firebase.auth().currentUser.uid).set(userHelper)
 
+    });
+
+       $("#submit-help").on("click", function (e) {
+        e.preventDefault();
+    
+    var helpForm = {
+        name: $("#user-name").val().trim(),
+        address: $("#user-address").val().trim(),
+        phone: $("#user-phone").val().trim(),
+        email: $("#user-email").val().trim(),
+        description: $("#user-description").val().trim(),
+
+    }
+    //testing form
+    console.log(helpForm.name)
+
+    //firebase
+    database.helpRef.set({
+        name: helpForm.name,
+        address: helpForm.address,
+        phone: helpForm.phone,
+        email: helpForm.email,
+        description: helpForm.description
+    });
+
+  
     });
     
 
@@ -59,9 +87,9 @@ $(function(){ //start iffy
         var result = event.currentTarget.id
     
         if(result === 'register-btn'){
-            user_firstName = $('#first-name').val().trim();
-            user_lastName = $('#last-name').val().trim();
-            user_skills = $('#skills').val().trim();
+            userHelper.first_name = $('#first-name').val().trim();
+            userHelper.last_name = $('#last-name').val().trim();
+            userHelper.skills = $('#skills').val().trim();
             registerEmail = $('#email-register').val().trim();
             registerPassword = $('#password-register').val().trim();
             registerUser(registerEmail,registerPassword)
@@ -123,14 +151,22 @@ $(function(){ //start iffy
 
 
     function registerUser(registerEmail, registerPassword){
-        auth.createUserWithEmailAndPassword(registerEmail, registerPassword).then(function(user){
-            usersRef.child(user.uid).push()    
-        }).catch(function(error){
+        auth.createUserWithEmailAndPassword(registerEmail, registerPassword).catch(function(error){
             var errCode = error.code;
             var errMessage = error.message;
             $('.card-block').prepend('<p class="alert alert-danger">'+errMessage+'</p>')
             }) 
     }
+
+ //handles the user login stuff and will display the needed info for user
+    function userLogin(user){
+        var userSignedIn = $('#user-name');
+        console.log(user.uid)
+        loginRef.child(user.uid).on('value',function(snapshot){
+            userSignedIn.text(snapshot.val().first_name)
+        })
+    }
+
 
 // Access Google Maps
 var addressUser = '';
@@ -197,6 +233,9 @@ database.ref().on("value", function(snapshot) {
   console.log("The read failed: " + errorObject.code);
 });
 // End of Google Maps
+
+   
+    
 
 
 

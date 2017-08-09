@@ -1,5 +1,16 @@
+* {
+  font-family: 'Ubuntu', sans-serif;
+}
+
+footer > container {
+  margin-top: 20px;
+  background: #ECF0F1;
+
+}
+
 .row {
   margin: 5px;
+  
 }
 
 .jumbotron {
@@ -12,6 +23,12 @@
 .img-fluid{
    max-width: 100%;
 }
+
+.card-header {
+  background: #ECF0F1;
+  
+}
+
 
 
 

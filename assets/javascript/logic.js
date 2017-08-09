@@ -77,6 +77,10 @@ $(function(){ //start iffy
     //firebase
     helpRef.set(helpForm);
 
+    $("#lineModalLabel").empty();
+    $(".modal-body").empty();
+    $(".modal-body").append("<h1 class='text-center'>Someone will contact you within the hour! </h1>" + "<button class='btn btn-primary'> Sounds good </button>");
+
    });
     
 

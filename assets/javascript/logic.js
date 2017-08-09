@@ -16,8 +16,8 @@ $(function(){ //start iffy
     var auth = firebase.auth();
     var loginRef = database.ref('USERS');
     var helpRef = database.ref('Help-Form');
-    var storage = database.storage();
-    var storageRef = storage.ref();
+    // var storage = database.storage();
+    // var storageRef = storage.ref();
     
 
    
@@ -147,9 +147,6 @@ $(function(){ //start iffy
             $(".login-card").show();
         } 
     }
-});
-
-
     function registerUser(registerEmail, registerPassword){
         auth.createUserWithEmailAndPassword(registerEmail, registerPassword).catch(function(error){
             var errCode = error.code;
@@ -166,6 +163,7 @@ $(function(){ //start iffy
             userSignedIn.text(snapshot.val().first_name)
         })
     }
+
 
 
 // Access Google Maps
@@ -221,8 +219,8 @@ function initMap() {
         }
       }
     }
-  });
-}
+
+
 // I'm cofused actually about what if anything this function is actually doing, it probably is to pull data saved on firebase to use
 database.ref().on("value", function(snapshot) {
   // Print the initial data to the console.
@@ -233,6 +231,17 @@ database.ref().on("value", function(snapshot) {
   console.log("The read failed: " + errorObject.code);
 });
 // End of Google Maps
+  });
+}
+
+
+
+
+}()); //END OF IFFY DONT CODE PAST THIS!
+
+
+
+
 
    
     

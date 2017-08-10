@@ -10,84 +10,104 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
         crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
     <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
 </head>
 
 <body>
-    <div class="container login-card">
-        <div class="card ">
-            <div class="card-block">
-                <h4 class="card-title">TaskGerbil User Login</h4>
-                <form id="signin-form">
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input class="form-control" type="email" id="email-user" placeholder="name@example.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password:</label>
-                        <input class="form-control" type="password" id="password-user">
-                    </div>
-                    <button type="submit" class="login-signup" id="login-btn">Login</button>
-                </form>
-                <a href="#register" class ="user-login-register" id="user-register">Register</a>
-                <a href="#" id="user-forgotpw">Forgot Password</a>
-            </div>
-        </div>
-    </div>
-    <div class="container register-card ">
-        <div class="card ">
-            <div class="card-block">
-                <h4 class="card-title">TaskGerbil User Registration</h4>
-                <form id="signin-form">
-                     <div class="form-group">
-                        <label for="first-name">First Name:</label>
-                        <input class="form-control" type="text" id="first-name">
-                    </div>
-                    <div class="form-group">
-                        <label for="last-name">Last Name:</label>
-                        <input class="form-control" type="text" id="last-name">
-                    </div>
-                    <div class="form-group">
-                        <label for="skills">Skills:</label>
-                        <input class="form-control" type="text" id="skills">
-                    </div>   
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input class="form-control" type="email" id="email-register" placeholder="name@example.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password:</label>
-                        <input class="form-control" type="password" id="password-register">
-                    </div>
-                    <button type="submit" class="login-signup" id="register-btn">Register</button>
-                </form>
-                <a href="#login" class ="user-login-register" id="user-login">Login</a>
-            </div>
-        </div>
-    </div>
-
-   
-    <!-- DIV HIDES CONTENT -->
-    <div class="login-cover"></div>
-
-    <!-- MAIN PAGE CONTENT -->
-    <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-        <a class="navbar-brand" href="#">TaskGerbil</a>
-        <button class="btn btn-outline-success my-2 my-sm-0 navbar-toggler-right" type="submit" id="user-signout">Sign Out </button>
-    </nav>
     <div class="container">
-        <h1>User Dashboard</h1>
-        <h3>Welcome <span id="user-name"></span></h3>
+        <div class="row">
 
-        <table>
-            <thead>
-                <th><span id="issue-head"></span></th>
-            </thead>
-            <tbody id="issue-table">
+        </div>
 
-            </tbody>
-        </table>
+        <div class="row">
+            <div class="col">
+            </div>
+            <div class="col">
+                <div class="container login-card">
+                    <div class="card ">
+                        <div class="card-block">
+                            <h4 class="card-title">TaskGerbil User Login</h4>
+                            <form id="signin-form">
+                                <div class="form-group">
+                                    <label for="email">Email:</label>
+                                    <input class="form-control" type="email" id="email-user" placeholder="name@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password:</label>
+                                    <input class="form-control" type="password" id="password-user">
+                                </div>
+                                <button type="submit" class="login-signup" id="login-btn">Login</button>
+                            </form>
+                            <br>
+                            <p>
+                                <a href="#register" class="user-login-register" id="user-register">Register</a> |
+                                <a href="#" id="user-forgotpw">Forgot Password</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                
+            </div>
+        </div>
+        <div class="container register-card ">
+            <div class="card ">
+                <div class="card-block">
+                    <h4 class="card-title">TaskGerbil User Registration</h4>
+                    <form id="signin-form">
+                        <div class="form-group">
+                            <label for="first-name">First Name:</label>
+                            <input class="form-control" type="text" id="first-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="last-name">Last Name:</label>
+                            <input class="form-control" type="text" id="last-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="skills">Skills:</label>
+                            <input class="form-control" type="text" id="skills">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input class="form-control" type="email" id="email-register" placeholder="name@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input class="form-control" type="password" id="password-register">
+                        </div>
+                        <button type="submit" class="login-signup" id="register-btn">Register</button>
+                    </form>
+                    <a href="#login" class="user-login-register" id="user-login">Login</a>
+                </div>
+            </div>
+        </div>
 
+
+        <!-- DIV HIDES CONTENT -->
+        <div class="login-cover"></div>
+
+        <!-- MAIN PAGE CONTENT -->
+        <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+            <a class="navbar-brand" href="#">TaskGerbil</a>
+            <button class="btn btn-outline-success my-2 my-sm-0 navbar-toggler-right" type="submit" id="user-signout">Sign Out </button>
+        </nav>
+        <div class="container">
+            <h1>User Dashboard</h1>
+            <h3>Welcome <span id="user-name"></span></h3>
+
+            <table>
+                <thead>
+                    <th><span id="issue-head"></span></th>
+                </thead>
+                <tbody id="issue-table">
+
+                </tbody>
+            </table>
+
+        </div>
     </div>
 
 

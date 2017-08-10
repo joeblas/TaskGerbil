@@ -119,3 +119,8 @@ body { padding: 2em; }
 .register-card{
   z-index: 810;
 }
+
+/* USER DASHBOARD TABLE  */
+.issue-img{
+  height: 100px;
+}

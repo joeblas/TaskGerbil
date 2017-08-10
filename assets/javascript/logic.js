@@ -31,6 +31,7 @@ $(function(){ //start iffy
     var userPassword;
     var registerEmail;
     var registerPassword;
+    var downloadURL;
     
     var userHelper = {
         first_name:user_firstName,
@@ -51,18 +52,17 @@ $(function(){ //start iffy
 
     //if user is logged in handling
     auth.onAuthStateChanged(function(user){
-        
+        var child;
         hideLoginRegisterDivs(user);
-        userLogin(user);
-<<<<<<< HEAD
-        loginRef.child(user.uid).set(userHelper)
-        retrieveIssue();
-=======
-        
-        loginRef.child(firebase.auth().currentUser.uid).set(userHelper)
->>>>>>> 659a42fe0756bb96c3f3c4a4536cd15a5413ab0c
-
+        if (user !== null) {
+            userLogin(user);
+            retrieveIssue();
+            if (userHelper.first_name !== undefined) {
+                loginRef.child(user.uid).set(userHelper)
+            } 
+        }
     });
+
 
     $("#submit-help").on("click", function (e) {
         e.preventDefault();
@@ -72,21 +72,50 @@ $(function(){ //start iffy
             phone: $("#user-phone").val().trim(),
             email: $("#user-email").val().trim(),
             description: $("#user-description").val().trim(),
+            imgURL:downloadURL
         }
-        //testing form
-        console.log(helpForm.name)
-        //firebase
+        console.log('imgURL' +helpForm.imgURL)
+
+        // //testing form
+        // console.log(helpForm.name)
+        // //firebase
         helpRefId.set(helpForm);
 
-    $("#lineModalLabel").empty();
-    $(".modal-body").empty();
-    $(".modal-body").append("<h1 class='text-center'>Someone will contact you within the hour! </h1>" + "<button class='btn btn-primary'> Sounds good </button>");
+        $("#lineModalLabel").empty();
+        $(".modal-body").empty();
+        $(".modal-body").append("<h1 class='text-center'>Someone will contact you within the hour! </h1>" + "<button class='btn btn-primary'> Sounds good </button>");
+         
+
 
    });
+
+    /*** IMAGE UPLOAD SECTION ***/
+    //get element by ID
+        var filebutton = $('#user-photo')
+    
+        //listen for file selection
+        filebutton.on('change', function(e) {
+            var file = e.target.files[0];
+            var storageRef = firebase.storage().ref('images/' + file.name);
+            //upload file
+            var task = storageRef.put(file);
+            // update progress bar
+            task.on('state_changed', function progress(snapshot) {
+            //         var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            //         uploader.value = percentage;
+            //     },
+                function error(err){}
+                function complete(){}
+            downloadURL = task.snapshot.downloadURL;
+            });
+        });
+    /********************** */
+
+
     
 
 
-    //sign up and login user on click with Firebase
+    /* sign up and login user on click with Firebase */
     $('.login-signup').on('click', function(event){
         event.preventDefault();
         var result = event.currentTarget.id
@@ -119,7 +148,7 @@ $(function(){ //start iffy
     //handles the signout of the user
     $('#user-signout').on('click', function(event){
         event.preventDefault();
-        // console.log(event)
+        
         $('.alert').remove(); //removes any alerts if user logs out and goes to login screen
         auth.signOut().catch(function(error){
             var errCode = error.code;
@@ -172,10 +201,87 @@ $(function(){ //start iffy
     }
 
     function retrieveIssue(){
-        helpRefId.on('child_added',function(snapshot){
-            console.log(snapshot)
-        })
+        helpRef.on('child_added', function(snap){
+            var issueResult = snap.val();
+            var issueKey = snap.key;
+            
+            var issueTable = $('#issue-table');
+            var issueTd = '<td class="issue-table-data">';
+            var issueImg = issueTd+'<img class="issue-img" src="'+issueResult.imgURL+'" />';
+            var issueDescr = issueTd+issueResult.description;
+            var showMoreDataKey = issueKey;
+            var showMoreBtn = '<button class="show-more" data-fbKey="'+showMoreDataKey+'">More Info</button>';
+            // var showMore = issueTd + showMoreBtn;
+            var issueAcceptAndShowMore = issueTd+showMoreBtn+'<button class="issue-accept-btn">Accept</button>';
+            
+            issueTable.append(
+                '<tr class="issue-table-row">'+
+                issueImg+
+                issueDescr+
+                issueAcceptAndShowMore+
+                '</tr>'
+            );
+            showMoreDetails()
+        });
     }
+    
+    function showMoreDetails(){
+         $('.show-more').on('click', function(event){
+                var showMoreDiv = $('.temp-div');
+                showMoreDiv.html('clicked')
+                // helpRef.child(issueKey).on('value',function(snapshot){
+                //     showMoreDiv.append(snapshot.imgURL)
+                // })
+                
+            })
+    }
+
+
+
+    /*** GOOGLE MAPS CODE ***/
+    // var geocoder;
+    // var map;
+    // var address ="Salt Lake City, UT";
+    // function initialize() {
+    //     geocoder = new google.maps.Geocoder();
+    //     var latlng = new google.maps.LatLng(-34.397, 150.644);
+    //     var myOptions = {
+    //         zoom: 8,
+    //         center: latlng,
+    //         mapTypeControl: true,
+    //         mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
+    //         navigationControl: true,
+    //         mapTypeId: google.maps.MapTypeId.ROADMAP
+    //     };
+    //     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    //     if (geocoder) {
+    //         geocoder.geocode( { 'address': address}, function(results, status) {
+    //             if (status == google.maps.GeocoderStatus.OK) {
+    //                 if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+    //                     map.setCenter(results[0].geometry.location);
+    //                     var infowindow = new google.maps.InfoWindow({ 
+    //                         content: '<b>'+address+'</b>',
+    //                         size: new google.maps.Size(150,50)
+    //                     });
+    //                     var marker = new google.maps.Marker({
+    //                         position: results[0].geometry.location,
+    //                         map: map,
+    //                         title:address
+    //                     });
+    //                     google.maps.event.addListener(marker, 'click', function() {
+    //                         infowindow.open(map,marker);
+    //                     });
+
+    //                 } else {
+    //                     alert("No results found");
+    //                 }
+    //             } else {
+    //                 alert("Geocode was not successful for the following reason: " + status);
+    //             }
+    //         });
+    //     }
+    // }
+    /* ******************** */
 
 
 

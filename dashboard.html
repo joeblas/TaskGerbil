@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
         crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/style.css">
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyDeiUXBWVMcXIdW-ZKCpgopbVPEP1gMggw"></script>
     <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
 </head>
 
@@ -29,7 +30,7 @@
                     </div>
                     <button type="submit" class="login-signup" id="login-btn">Login</button>
                 </form>
-                <a href="#register" class ="user-login-register" id="user-register">Register</a>
+                <a href="#register" class="user-login-register" id="user-register">Register</a>
                 <a href="#" id="user-forgotpw">Forgot Password</a>
             </div>
         </div>
@@ -39,7 +40,7 @@
             <div class="card-block">
                 <h4 class="card-title">TaskGerbil User Registration</h4>
                 <form id="signin-form">
-                     <div class="form-group">
+                    <div class="form-group">
                         <label for="first-name">First Name:</label>
                         <input class="form-control" type="text" id="first-name">
                     </div>
@@ -50,7 +51,7 @@
                     <div class="form-group">
                         <label for="skills">Skills:</label>
                         <input class="form-control" type="text" id="skills">
-                    </div>   
+                    </div>
                     <div class="form-group">
                         <label for="email">Email:</label>
                         <input class="form-control" type="email" id="email-register" placeholder="name@example.com">
@@ -61,33 +62,36 @@
                     </div>
                     <button type="submit" class="login-signup" id="register-btn">Register</button>
                 </form>
-                <a href="#login" class ="user-login-register" id="user-login">Login</a>
+                <a href="#login" class="user-login-register" id="user-login">Login</a>
             </div>
         </div>
     </div>
 
-   
+
     <!-- DIV HIDES CONTENT -->
     <div class="login-cover"></div>
 
     <!-- MAIN PAGE CONTENT -->
     <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-        <a class="navbar-brand" href="#">TaskGerbil</a>
+        <a class="navbar-brand" href="#"><b>TaskGerbil</b> | User Dashboard</a>
         <button class="btn btn-outline-success my-2 my-sm-0 navbar-toggler-right" type="submit" id="user-signout">Sign Out </button>
     </nav>
     <div class="container">
-        <h1>User Dashboard</h1>
         <h3>Welcome <span id="user-name"></span></h3>
 
-        <table>
-            <thead>
-                <th><span id="issue-head"></span></th>
+        <table class="table">
+            <thead class="thead-default">
+                <th>Open Issue Feed<span id="issue-head"></span></th>
             </thead>
             <tbody id="issue-table">
 
             </tbody>
         </table>
-
+        <!-- temp Div for testing -->
+        <div class="temp-div"></div>
+        <!-- GOOGLE MAPS MAP -->
+        <!-- <div id="map_canvas" style="width:600px; height:500px"> -->
+        </div>
     </div>
 
 
@@ -96,9 +100,8 @@
 
 
 
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="assets/javascript/logic.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="assets/javascript/logic.js"></script>
 
 </body>
 

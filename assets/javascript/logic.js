@@ -54,13 +54,8 @@ $(function(){ //start iffy
         
         hideLoginRegisterDivs(user);
         userLogin(user);
-<<<<<<< HEAD
         loginRef.child(user.uid).set(userHelper)
         retrieveIssue();
-=======
-        
-        loginRef.child(firebase.auth().currentUser.uid).set(userHelper)
->>>>>>> 659a42fe0756bb96c3f3c4a4536cd15a5413ab0c
 
     });
 

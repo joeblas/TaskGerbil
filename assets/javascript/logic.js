@@ -212,16 +212,16 @@ $(
           issueResult.imgURL +
           '" />';
         var issueDescr = issueTd + issueResult.description;
-        var showMoreDataKey = issueKey;
+        //var showMoreDataKey = issueKey;
         var showMoreBtn =
-          '<button class="show-more" data-toggle="modal" data-target="#taskModal" datadata-fbKey="' +
-          showMoreDataKey +
+          '<button class="btn btn-info show-more" data-toggle="modal" data-target="#taskModal" data-fbKey="' +
+          issueKey +
           '">More Info</button>';
         // var showMore = issueTd + showMoreBtn;
         var issueAcceptAndShowMore =
           issueTd +
           showMoreBtn +
-          '<button class="issue-accept-btn">Accept</button>';
+          '<button class="btn btn-success issue-accept-btn">Accept</button>';
 
         issueTable.append(
           '<tr class="issue-table-row">' +
@@ -231,7 +231,6 @@ $(
             "</tr>"
         );
 
-        
         //showMoreDetails()
       });
     }
@@ -240,15 +239,19 @@ $(
 
             var childKey = $(this).attr("data-fbKey");
             var showMoreDiv = $(".temp-div");
-            // $("#taskModal").modal()
+            //$('.modal-body').append()
           // showMoreDiv.html('clicked')
             helpRef.child(childKey).once("value", function(snapshot) {
                 var address = snapshot.val().address;               
                 // showMoreDiv.append(address);
                 googleMapRetrieve(address);
                 showMoreDiv.append(snapshot.val().name);
+                $('.modal-body').html(snapshot.val().description)
                 console.log(snapshot.val());
+
+            
             });
+            
         });
     // function showMoreDetails(){
     //  $('.show-more').on('click', function(event){

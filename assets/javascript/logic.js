@@ -186,6 +186,7 @@ $(
           $(".card-block").prepend(
             '<p class="alert alert-danger">' + errMessage + "</p>"
           );
+
         });
     }
 

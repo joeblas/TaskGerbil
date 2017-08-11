@@ -206,13 +206,13 @@ $(function(){ //start iffy
             var issueKey = snap.key;
             
             var issueTable = $('#issue-table');
-            var issueTd = '<td class="issue-table-data">';
-            var issueImg = issueTd+'<img class="issue-img" src="'+issueResult.imgURL+'" />';
+            var issueTd = '<td class=" issue-table-data">';
+            var issueImg = issueTd+'<img class="rounded img-fluid issue-img" src="'+issueResult.imgURL+'" />';
             var issueDescr = issueTd+issueResult.description;
             var showMoreDataKey = issueKey;
-            var showMoreBtn = '<button class="show-more" data-fbKey="'+showMoreDataKey+'">More Info</button>';
+            var showMoreBtn = '<button class=" btn btn-info show-more" data-fbKey="'+showMoreDataKey+'">More Info</button>';
             // var showMore = issueTd + showMoreBtn;
-            var issueAcceptAndShowMore = issueTd+showMoreBtn+'<button class="issue-accept-btn">Accept</button>';
+            var issueAcceptAndShowMore = issueTd+showMoreBtn+'<button class="btn btn-success issue-accept-btn">Accept</button>';
             
             issueTable.append(
                 '<tr class="issue-table-row">'+

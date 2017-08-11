@@ -1,27 +1,26 @@
-$(function(){ //start iffy
+$(
+  (function() {
+    //start iffy
 
-    //link to Firebase 
+    //link to Firebase
     var config = {
-        apiKey: "AIzaSyADN_JgqSyWmzLblXwdC7DaS5MsQdYC9cA",
-        authDomain: "task-gerbil.firebaseapp.com",
-        databaseURL: "https://task-gerbil.firebaseio.com",
-        projectId: "task-gerbil",
-        storageBucket: "task-gerbil.appspot.com",
-        messagingSenderId: "360224380903"
+      apiKey: "AIzaSyADN_JgqSyWmzLblXwdC7DaS5MsQdYC9cA",
+      authDomain: "task-gerbil.firebaseapp.com",
+      databaseURL: "https://task-gerbil.firebaseio.com",
+      projectId: "task-gerbil",
+      storageBucket: "task-gerbil.appspot.com",
+      messagingSenderId: "360224380903"
     };
     firebase.initializeApp(config);
 
     //firebase db referenses
     var database = firebase.database();
     var auth = firebase.auth();
-    var loginRef = database.ref('USERS');
-    var helpRef = database.ref('Help-Form');
-    var helpRefId = helpRef.push()
+    var loginRef = database.ref("USERS");
+    var helpRef = database.ref("Help-Form");
+    var helpRefId = helpRef.push();
     // var storage = database.storage();
     // var storageRef = storage.ref();
-    
-
-   
 
     //init variables
     var user_firstName;
@@ -32,211 +31,232 @@ $(function(){ //start iffy
     var registerEmail;
     var registerPassword;
     var downloadURL;
-    
+
     var userHelper = {
-        first_name:user_firstName,
-        last_name: user_lastName,
-        skills: user_skills,
-        rating:'',
-        jobs:'',
-    }
+      first_name: user_firstName,
+      last_name: user_lastName,
+      skills: user_skills,
+      rating: "",
+      jobs: ""
+    };
 
-   
-    $('.register-card').hide()
+    $(".register-card").hide();
 
-    $("button").on("click", function(){
-        console.log("button clicked")
-
-    })
-
-
-    //if user is logged in handling
-    auth.onAuthStateChanged(function(user){
-        var child;
-        hideLoginRegisterDivs(user);
-        if (user !== null) {
-            userLogin(user);
-            retrieveIssue();
-            if (userHelper.first_name !== undefined) {
-                loginRef.child(user.uid).set(userHelper)
-            } 
-        }
+    $("button").on("click", function() {
+      console.log("button clicked");
     });
 
-
-    $("#submit-help").on("click", function (e) {
-        e.preventDefault();
-        var helpForm = {
-            name: $("#user-name").val().trim(),
-            address: $("#user-address").val().trim(),
-            phone: $("#user-phone").val().trim(),
-            email: $("#user-email").val().trim(),
-            description: $("#user-description").val().trim(),
-            imgURL:downloadURL
+    //if user is logged in handling
+    auth.onAuthStateChanged(function(user) {
+      var child;
+      hideLoginRegisterDivs(user);
+      if (user !== null) {
+        userLogin(user);
+        retrieveIssue();
+        if (userHelper.first_name !== undefined) {
+          loginRef.child(user.uid).set(userHelper);
         }
-        console.log('imgURL' +helpForm.imgURL)
+      }
+    });
 
-        // //testing form
-        // console.log(helpForm.name)
-        // //firebase
-        helpRefId.set(helpForm);
+    $("#submit-help").on("click", function(e) {
+      e.preventDefault();
+      var helpForm = {
+        name: $("#user-name").val().trim(),
+        address: $("#user-address").val().trim(),
+        phone: $("#user-phone").val().trim(),
+        email: $("#user-email").val().trim(),
+        description: $("#user-description").val().trim(),
+        imgURL: downloadURL
+      };
+      console.log("imgURL" + helpForm.imgURL);
 
-        $("#lineModalLabel").empty();
-        $(".modal-body").empty();
-        $(".modal-body").append("<h1 class='text-center'>Someone will contact you within the hour! </h1>" + "<button class='btn btn-primary'> Sounds good </button>");
-         
+      // //testing form
+      // console.log(helpForm.name)
+      // //firebase
+      helpRefId.set(helpForm);
 
-
-   });
+      $("#lineModalLabel").empty();
+      $(".modal-body").empty();
+      $(".modal-body").append(
+        "<h1 class='text-center'>Someone will contact you within the hour! </h1>" +
+          "<button class='btn btn-primary'> Sounds good </button>"
+      );
+    });
 
     /*** IMAGE UPLOAD SECTION ***/
     //get element by ID
-        var filebutton = $('#user-photo')
-    
-        //listen for file selection
-        filebutton.on('change', function(e) {
-            var file = e.target.files[0];
-            var storageRef = firebase.storage().ref('images/' + file.name);
-            //upload file
-            var task = storageRef.put(file);
-            // update progress bar
-            task.on('state_changed', function progress(snapshot) {
-            //         var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            //         uploader.value = percentage;
-            //     },
-                function error(err){}
-                function complete(){}
-            downloadURL = task.snapshot.downloadURL;
-            });
-        });
+    var filebutton = $("#user-photo");
+
+    //listen for file selection
+    filebutton.on("change", function(e) {
+      var file = e.target.files[0];
+      var storageRef = firebase.storage().ref("images/" + file.name);
+      //upload file
+      var task = storageRef.put(file);
+      // update progress bar
+      task.on("state_changed", function progress(snapshot) {
+        //         var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        //         uploader.value = percentage;
+        //     },
+        function error(err) {}
+        function complete() {}
+        downloadURL = task.snapshot.downloadURL;
+      });
+    });
     /********************** */
 
-
-    
-
-
     /* sign up and login user on click with Firebase */
-    $('.login-signup').on('click', function(event){
-        event.preventDefault();
-        var result = event.currentTarget.id
-    
-        if(result === 'register-btn'){
-            userHelper.first_name = $('#first-name').val().trim();
-            userHelper.last_name = $('#last-name').val().trim();
-            userHelper.skills = $('#skills').val().trim();
-            registerEmail = $('#email-register').val().trim();
-            registerPassword = $('#password-register').val().trim();
-            registerUser(registerEmail,registerPassword)
-        }
-        else if (result === 'login-btn') {
-            userEmail = $('#email-user').val().trim();
-            userPassword = $('#password-user').val().trim();
-            auth.signInWithEmailAndPassword(userEmail, userPassword).then(function(user){
-                //nothing
-            }).catch(function(error){
-                var errCode = error.code;
-                var errMessage = error.message;
-                $('.card-block').prepend('<p class="alert alert-danger">'+errMessage+'</p>')
-            })
-        }
-        $('form').each(function(){
-                this.reset();
-            })  
-    })
+    $(".login-signup").on("click", function(event) {
+      event.preventDefault();
+      var result = event.currentTarget.id;
 
+      if (result === "register-btn") {
+        userHelper.first_name = $("#first-name").val().trim();
+        userHelper.last_name = $("#last-name").val().trim();
+        userHelper.skills = $("#skills").val().trim();
+        registerEmail = $("#email-register").val().trim();
+        registerPassword = $("#password-register").val().trim();
+        registerUser(registerEmail, registerPassword);
+      } else if (result === "login-btn") {
+        userEmail = $("#email-user").val().trim();
+        userPassword = $("#password-user").val().trim();
+        auth
+          .signInWithEmailAndPassword(userEmail, userPassword)
+          .then(function(user) {
+            //nothing
+          })
+          .catch(function(error) {
+            var errCode = error.code;
+            var errMessage = error.message;
+            $(".card-block").prepend(
+              '<p class="alert alert-danger">' + errMessage + "</p>"
+            );
+          });
+      }
+      $("form").each(function() {
+        this.reset();
+      });
+    });
 
     //handles the signout of the user
-    $('#user-signout').on('click', function(event){
-        event.preventDefault();
-        
-        $('.alert').remove(); //removes any alerts if user logs out and goes to login screen
-        auth.signOut().catch(function(error){
-            var errCode = error.code;
-            var errMessage = error.message;
-            //create error
-        })
-    })
+    $("#user-signout").on("click", function(event) {
+      event.preventDefault();
+
+      $(".alert").remove(); //removes any alerts if user logs out and goes to login screen
+      auth.signOut().catch(function(error) {
+        var errCode = error.code;
+        var errMessage = error.message;
+        //create error
+      });
+    });
 
     //shows user registration card if register button is pressed on login card
-    $('.user-login-register').on('click', function(event){
-        // console.log(event)
-        var result = event.currentTarget;
-        if(result.text==='Register'){
-            $('.login-card').hide();
-            $('.register-card').show();
-        }else if (result.text === 'Login'){
-            $('.login-card').show();
-            $('.register-card').hide();
-        }
+    $(".user-login-register").on("click", function(event) {
+      // console.log(event)
+      var result = event.currentTarget;
+      if (result.text === "Register") {
+        $(".login-card").hide();
+        $(".register-card").show();
+      } else if (result.text === "Login") {
+        $(".login-card").show();
+        $(".register-card").hide();
+      }
     });
-    
-    function hideLoginRegisterDivs(user){
-        if(user){
-            // console.log(user)
-            $(".login-cover").hide();
-            $(".login-card").hide();
-            $('.register-card').hide();
-        } else {
-            $(".login-cover").show();
-            $(".login-card").show();
-        } 
+
+    function hideLoginRegisterDivs(user) {
+      if (user) {
+        // console.log(user)
+        $(".login-cover").hide();
+        $(".login-card").hide();
+        $(".register-card").hide();
+      } else {
+        $(".login-cover").show();
+        $(".login-card").show();
+      }
     }
 
-    //registers the user. This function is called when the register button. 
-    function registerUser(registerEmail, registerPassword){
-        auth.createUserWithEmailAndPassword(registerEmail, registerPassword).catch(function(error){
-            var errCode = error.code;
-            var errMessage = error.message;
-            $('.card-block').prepend('<p class="alert alert-danger">'+errMessage+'</p>')
-            }) 
-    }
-
- //handles the user login stuff and will display the needed info for user
-    function userLogin(user){
-        var userSignedIn = $('#user-name');
-        // console.log(user.uid)
-        loginRef.child(user.uid).on('value',function(snapshot){
-            userSignedIn.text(snapshot.val().first_name)
-        })
-    }
-
-    function retrieveIssue(){
-        helpRef.on('child_added', function(snap){
-            var issueResult = snap.val();
-            var issueKey = snap.key;
-            
-            var issueTable = $('#issue-table');
-            var issueTd = '<td class="issue-table-data">';
-            var issueImg = issueTd+'<img class="issue-img" src="'+issueResult.imgURL+'" />';
-            var issueDescr = issueTd+issueResult.description;
-            var showMoreDataKey = issueKey;
-            var showMoreBtn = '<button class="show-more" data-fbKey="'+showMoreDataKey+'">More Info</button>';
-            // var showMore = issueTd + showMoreBtn;
-            var issueAcceptAndShowMore = issueTd+showMoreBtn+'<button class="issue-accept-btn">Accept</button>';
-            
-            issueTable.append(
-                '<tr class="issue-table-row">'+
-                issueImg+
-                issueDescr+
-                issueAcceptAndShowMore+
-                '</tr>'
-            );
-            showMoreDetails()
+    //registers the user. This function is called when the register button.
+    function registerUser(registerEmail, registerPassword) {
+      auth
+        .createUserWithEmailAndPassword(registerEmail, registerPassword)
+        .catch(function(error) {
+          var errCode = error.code;
+          var errMessage = error.message;
+          $(".card-block").prepend(
+            '<p class="alert alert-danger">' + errMessage + "</p>"
+          );
         });
     }
-    
-    function showMoreDetails(){
-         $('.show-more').on('click', function(event){
-                var showMoreDiv = $('.temp-div');
-                showMoreDiv.html('clicked')
-                // helpRef.child(issueKey).on('value',function(snapshot){
-                //     showMoreDiv.append(snapshot.imgURL)
-                // })
-                
-            })
+
+    //handles the user login stuff and will display the needed info for user
+    function userLogin(user) {
+      var userSignedIn = $("#user-name");
+      // console.log(user.uid)
+      loginRef.child(user.uid).on("value", function(snapshot) {
+        userSignedIn.text(snapshot.val().first_name);
+      });
     }
 
+    function retrieveIssue() {
+      helpRef.on("child_added", function(snap) {
+        var issueResult = snap.val();
+        var issueKey = snap.key;
 
+        var issueTable = $("#issue-table");
+        var issueTd = '<td class="issue-table-data">';
+        var issueImg =
+          issueTd +
+          '<img class="issue-img" src="' +
+          issueResult.imgURL +
+          '" />';
+        var issueDescr = issueTd + issueResult.description;
+        var showMoreDataKey = issueKey;
+        var showMoreBtn =
+          '<button class="show-more" data-fbKey="' +
+          showMoreDataKey +
+          '">More Info</button>';
+        // var showMore = issueTd + showMoreBtn;
+        var issueAcceptAndShowMore =
+          issueTd +
+          showMoreBtn +
+          '<button class="issue-accept-btn">Accept</button>';
+
+        issueTable.append(
+          '<tr class="issue-table-row">' +
+            issueImg +
+            issueDescr +
+            issueAcceptAndShowMore +
+            "</tr>"
+        );
+
+        
+        //showMoreDetails()
+      });
+    }
+    $('body').on("click", '.show-more', function(event) {
+            // event.stopPropagation();
+
+            var childKey = $(this).attr("data-fbKey");
+            var showMoreDiv = $(".temp-div");
+          // showMoreDiv.html('clicked')
+            helpRef.child(childKey).once("value", function(snapshot) {
+                showMoreDiv.append(snapshot.val().name);
+                console.log(snapshot.val());
+            });
+        });
+    // function showMoreDetails(){
+    //  $('.show-more').on('click', function(event){
+    //     var childKey = $(this).attr('data-fbKey')
+    //     var showMoreDiv = $('.temp-div');
+    //     // showMoreDiv.html('clicked')
+    //     helpRef.child(childKey).on('value',function(snapshot){
+    //         showMoreDiv.append(snapshot.val().name)
+    //         console.log(snapshot.val())
+    //     })
+
+    //     })
+    // }
 
     /*** GOOGLE MAPS CODE ***/
     // var geocoder;
@@ -259,7 +279,7 @@ $(function(){ //start iffy
     //             if (status == google.maps.GeocoderStatus.OK) {
     //                 if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
     //                     map.setCenter(results[0].geometry.location);
-    //                     var infowindow = new google.maps.InfoWindow({ 
+    //                     var infowindow = new google.maps.InfoWindow({
     //                         content: '<b>'+address+'</b>',
     //                         size: new google.maps.Size(150,50)
     //                     });
@@ -282,28 +302,5 @@ $(function(){ //start iffy
     //     }
     // }
     /* ******************** */
-
-
-
-
-
-
-
-
-}()); //END OF IFFY DONT CODE PAST THIS!
-
-
-
-
-
-   
-    
-
-    
-
-
-
-
-
-
-
+  })()
+); //END OF IFFY DONT CODE PAST THIS!

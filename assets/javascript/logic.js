@@ -214,7 +214,7 @@ $(
         var issueDescr = issueTd + issueResult.description;
         var showMoreDataKey = issueKey;
         var showMoreBtn =
-          '<button class="show-more" data-fbKey="' +
+          '<button class="show-more" data-toggle="modal" data-target="#taskModal" datadata-fbKey="' +
           showMoreDataKey +
           '">More Info</button>';
         // var showMore = issueTd + showMoreBtn;
@@ -240,6 +240,7 @@ $(
 
             var childKey = $(this).attr("data-fbKey");
             var showMoreDiv = $(".temp-div");
+            // $("#taskModal").modal()
           // showMoreDiv.html('clicked')
             helpRef.child(childKey).once("value", function(snapshot) {
                 showMoreDiv.append(snapshot.val().name);

@@ -272,9 +272,9 @@ $("body").on("click", ".show-more", function(event) {
 	console.log(snapshot.val());
 	});
 
-	$(".issue-accept").on(events, function(e) {
-	e.preventDefault;
-	});
+	// $(".issue-accept").on(events, function(e) {
+	// e.preventDefault;
+	// });
 
 	// $('#contact').on('show.bs.modal', function (){
 	//   google.maps.event.trigger(map, "resize");
@@ -292,6 +292,11 @@ $("body").on("click", ".show-more", function(event) {
 
 //     })
 // }
+
+$('body').on('click', '.issue-accept-btn', function(event){
+	var row = $(this).closest('tr').html();
+	$('#accepted-table').append('<tr>'+row);
+})
 
 /*** GOOGLE MAPS CODE ***/
 // var address ="Salt Lake City, UT";
